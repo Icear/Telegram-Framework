@@ -19,6 +19,6 @@ public class SpringConfiguration {
     private Logger logger = LogManager.getLogger(SpringConfiguration.class);
 
     public SpringConfiguration() {
-
+        logger.info("Spring Container Initializing...");
     }
 }

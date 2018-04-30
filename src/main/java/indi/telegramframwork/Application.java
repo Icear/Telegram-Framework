@@ -31,7 +31,6 @@ public class Application {
         logger.info("Application start");
 
         //初始化Spring容器
-        logger.info("Spring Container Initializing...");
         context = new AnnotationConfigApplicationContext(SpringConfiguration.class);
     }
 
