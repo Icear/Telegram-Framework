@@ -1,10 +1,9 @@
 package indi.telegramframwork;
 
-import indi.telegramframwork.configuration.SpringConfiguration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * 程序入口
@@ -31,7 +30,8 @@ public class Application {
         logger.info("Application start");
 
         //初始化Spring容器
-        context = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+//        context = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+        context = new ClassPathXmlApplicationContext("applicationContext.xml");
     }
 
     @Override
