@@ -18,9 +18,9 @@ import java.util.function.Predicate;
  * TelegramBot事件的监听者，同时负责发布全局TelegramBot事件
  */
 @Component
-public class TelegramBotEventListener implements ApplicationEventPublisherAware {
+public class TelegramBotEventDispatcher implements ApplicationEventPublisherAware {
     private final TelegramBot telegramBot;
-    private Logger logger = LogManager.getLogger(TelegramBotEventListener.class);
+    private Logger logger = LogManager.getLogger(TelegramBotEventDispatcher.class);
 
     @Value("#{setting['telegramBot.connectWay']}")
     private String connectWay;
@@ -28,7 +28,7 @@ public class TelegramBotEventListener implements ApplicationEventPublisherAware 
     private final Set<TelegramBotEventFilter> telegramBotEventFilterSet;
 
     @Autowired
-    public TelegramBotEventListener(TelegramBot telegramBot, Set<TelegramBotEventFilter> telegramBotEventFilterSet) {
+    public TelegramBotEventDispatcher(TelegramBot telegramBot, Set<TelegramBotEventFilter> telegramBotEventFilterSet) {
         this.telegramBot = telegramBot;
         //使用Spring注入获得所有的Filter实现
         this.telegramBotEventFilterSet = telegramBotEventFilterSet;
