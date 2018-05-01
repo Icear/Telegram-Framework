@@ -32,6 +32,9 @@ public class TelegramBotEventDispatcher implements ApplicationEventPublisherAwar
         this.telegramBot = telegramBot;
         //使用Spring注入获得所有的Filter实现
         this.telegramBotEventFilterSet = telegramBotEventFilterSet;
+        logger.debug("telegram bot event filter list: " + "\n"
+                + "size: " + telegramBotEventFilterSet.size() + "\n"
+                + "entity" + telegramBotEventFilterSet);
     }
 
     @Override
@@ -45,7 +48,7 @@ public class TelegramBotEventDispatcher implements ApplicationEventPublisherAwar
             case "UpdateListener":
                 telegramBot.setUpdatesListener(updateList -> {
                     logger.debug("receive update events");
-                    logger.trace("update events: " + updateList.toString());
+                    logger.trace("update events: " + updateList.toString() + " ,total " + updateList.size());
                     //接收到Update事件后
                     //将Update事件转换为TelegramBotEvent
                     //为每一个事件调用telegramBotFilter的filter函数进行过滤
