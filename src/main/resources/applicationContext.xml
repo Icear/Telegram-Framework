@@ -9,7 +9,6 @@
     <context:annotation-config/>
     <context:component-scan base-package="indi.telegramframwork.context"/>
     <context:component-scan base-package="indi.telegramframwork.plugin"/>
-    <context:component-scan base-package="indi.telegramframwork.filter"/>
 
     <!-- 使用注解注入properties中的值 -->
     <bean id="setting"
