@@ -68,4 +68,13 @@ public class TelegramBotEventListener implements ApplicationEventPublisherAware 
                 logger.error("unsupported connectWay: " + connectWay + ", event will not be check");
         }
     }
+
+    @Override
+    public String toString() {
+        return "TelegramBotEventListener{" +
+                "telegramBot=" + telegramBot +
+                ", connectWay='" + connectWay + '\'' +
+                ", telegramBotEventFilterSet=" + telegramBotEventFilterSet +
+                '}';
+    }
 }

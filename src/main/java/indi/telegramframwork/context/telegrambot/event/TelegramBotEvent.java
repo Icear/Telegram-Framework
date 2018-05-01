@@ -23,4 +23,11 @@ public class TelegramBotEvent extends ApplicationEvent {
         logger.trace("provide source: " + source.toString());
         return source;
     }
+
+    @Override
+    public String toString() {
+        return "TelegramBotEvent{" +
+                "source=" + source.toString() +
+                '}';
+    }
 }

@@ -36,4 +36,10 @@ public class TelegramBotContext {
         return telegramBot;
     }
 
+    @Override
+    public String toString() {
+        return "TelegramBotContext{" +
+                "telegramBotToken='" + telegramBotToken + '\'' +
+                '}';
+    }
 }
