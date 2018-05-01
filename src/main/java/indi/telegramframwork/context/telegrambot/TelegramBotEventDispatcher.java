@@ -19,13 +19,14 @@ import java.util.function.Predicate;
  */
 @Component
 public class TelegramBotEventDispatcher implements ApplicationEventPublisherAware {
-    private final TelegramBot telegramBot;
     private Logger logger = LogManager.getLogger(TelegramBotEventDispatcher.class);
 
     @Value("#{setting['telegramBot.connectWay']}")
     private String connectWay;
 
     private final Set<TelegramBotEventFilter> telegramBotEventFilterSet;
+    private final TelegramBot telegramBot;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
     public TelegramBotEventDispatcher(TelegramBot telegramBot, Set<TelegramBotEventFilter> telegramBotEventFilterSet) {
@@ -39,9 +40,14 @@ public class TelegramBotEventDispatcher implements ApplicationEventPublisherAwar
 
     @Override
     public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        //TODO 存在一个问题，同一个事件会被触发两次
+        this.applicationEventPublisher = applicationEventPublisher;
+        addBotUpdatesListener();
+    }
+
+    private void addBotUpdatesListener() {
         //注册更新监听器，目前使用Update监听器来更新事件，同时通过ApplicationEventPublisher来发布事件
         //TODO 加入WebHook支持
-
 
         logger.info("add telegram bot update listener via " + connectWay + "...");
         switch (connectWay) {
@@ -65,6 +71,7 @@ public class TelegramBotEventDispatcher implements ApplicationEventPublisherAwar
                     logger.debug("dispatch event finished");
                     return UpdatesListener.CONFIRMED_UPDATES_ALL;//返回所有事件已处理
                 });
+
                 logger.info("start listening telegram bot event");
                 break;
             default:
