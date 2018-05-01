@@ -14,7 +14,8 @@ public class TelegramBotEvent extends ApplicationEvent {
 
     public TelegramBotEvent(Update update) {
         super(update);
-        logger.debug("created with Update: " + update.toString());
+        logger.debug("telegram bot event created");
+        logger.trace("created with Update: " + update.toString());
     }
 
     @Override
