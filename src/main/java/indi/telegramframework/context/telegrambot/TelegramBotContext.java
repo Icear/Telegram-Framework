@@ -1,4 +1,4 @@
-package indi.telegramframwork.context.telegrambot;
+package indi.telegramframework.context.telegrambot;
 
 import com.pengrad.telegrambot.TelegramBot;
 import okhttp3.OkHttpClient;

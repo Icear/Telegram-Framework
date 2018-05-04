@@ -7,8 +7,8 @@
     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:annotation-config/>
-    <context:component-scan base-package="indi.telegramframwork.context"/>
-    <context:component-scan base-package="indi.telegramframwork.plugin"/>
+    <context:component-scan base-package="indi.telegramframework.context"/>
+    <context:component-scan base-package="indi.telegramframework.plugin"/>
 
     <!-- 使用注解注入properties中的值 -->
     <bean id="setting"

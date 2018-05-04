@@ -1,6 +1,6 @@
-package indi.telegramframwork.plugin.logplugin.filter;
+package indi.telegramframework.plugin.logplugin.filter;
 
-import indi.telegramframwork.context.telegrambot.TelegramBotEventFilter;
+import indi.telegramframework.context.telegrambot.TelegramBotEventFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;

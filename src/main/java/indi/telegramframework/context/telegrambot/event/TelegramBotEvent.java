@@ -1,4 +1,4 @@
-package indi.telegramframwork.context.telegrambot.event;
+package indi.telegramframework.context.telegrambot.event;
 
 import com.pengrad.telegrambot.model.Update;
 import org.apache.logging.log4j.LogManager;

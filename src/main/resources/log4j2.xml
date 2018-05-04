@@ -13,8 +13,9 @@
     </appenders>
 
     <loggers>
-        <logger name="org.springframework" level="error"/>
-        <logger name="indi.telegramframwork" level="all"/>
+        <!--<logger name="org.springframework" level="error"/>-->
+        <logger name="org.springframework" level="all"/>
+        <logger name="indi.telegramframework" level="debug"/>
         <root level="error">
             <AppenderRef ref="console"/>
             <!-- <AppenderRef ref="warnfile" /> -->

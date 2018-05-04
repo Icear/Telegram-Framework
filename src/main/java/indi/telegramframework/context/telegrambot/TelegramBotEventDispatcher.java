@@ -1,8 +1,8 @@
-package indi.telegramframwork.context.telegrambot;
+package indi.telegramframework.context.telegrambot;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
-import indi.telegramframwork.context.telegrambot.event.TelegramBotEvent;
+import indi.telegramframework.context.telegrambot.event.TelegramBotEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

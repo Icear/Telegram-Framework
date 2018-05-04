@@ -1,6 +1,6 @@
-package indi.telegramframwork.context.telegrambot;
+package indi.telegramframework.context.telegrambot;
 
-import indi.telegramframwork.context.telegrambot.event.TelegramBotEvent;
+import indi.telegramframework.context.telegrambot.event.TelegramBotEvent;
 
 /**
  * Bot事件的过滤器接口
