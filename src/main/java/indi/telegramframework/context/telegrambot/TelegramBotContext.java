@@ -36,31 +36,32 @@ public class TelegramBotContext {
     public TelegramBot getTelegramBot() {
         logger.info("connecting to telegram bot service via token...");
         logger.trace("telegramBot.token = " + telegramBotToken);
-        TelegramBot telegramBot;
+        TelegramBot.Builder telegramBotBuilder = new TelegramBot.Builder(telegramBotToken);
         if (proxySwitch) {
             logger.info("proxy on, proxy " + proxyTypeString + " to " + proxyAddress + ":" + port);
+
+            Proxy proxy;
             //转换proxyType
-            Proxy.Type proxyType = Proxy.Type.HTTP;
             switch (proxyTypeString) {
                 case "http":
-                    proxyType = Proxy.Type.HTTP;
+                    proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress, port));
                     break;
                 case "sock":
-                    proxyType = Proxy.Type.SOCKS;
+                    proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(proxyAddress, port));
                     break;
                 default:
+                    proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress, port));
                     logger.error("unsupported proxy type " + proxyTypeString + ", use default: HTTP");
             }
 
-            telegramBot = new TelegramBot.Builder(telegramBotToken)
-                    .okHttpClient(
-                            new OkHttpClient.Builder()
-                                    .proxy(new Proxy(proxyType, new InetSocketAddress(proxyAddress, port)))
-                                    .build()
-                    ).build();
-        } else {
-            telegramBot = new TelegramBot(telegramBotToken);
+            telegramBotBuilder.okHttpClient(
+                    new OkHttpClient.Builder()
+                            .proxy(proxy)
+                            .build()
+            );
         }
+
+        TelegramBot telegramBot = telegramBotBuilder.build();
         logger.info("telegram bot service connected");
         logger.debug("telegram bot service connect result: " + telegramBot);
         return telegramBot;
@@ -69,7 +70,11 @@ public class TelegramBotContext {
     @Override
     public String toString() {
         return "TelegramBotContext{" +
-                "telegramBotToken='" + telegramBotToken + '\'' +
+                "proxySwitch=" + proxySwitch +
+                ", proxyTypeString='" + proxyTypeString + '\'' +
+                ", proxyAddress='" + proxyAddress + '\'' +
+                ", port=" + port +
+                ", telegramBotToken='" + telegramBotToken +
                 '}';
     }
 }
