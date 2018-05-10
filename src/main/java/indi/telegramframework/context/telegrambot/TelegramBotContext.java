@@ -38,7 +38,7 @@ public class TelegramBotContext {
         logger.trace("telegramBot.token = " + telegramBotToken);
         TelegramBot.Builder telegramBotBuilder = new TelegramBot.Builder(telegramBotToken);
         if (proxySwitch) {
-            logger.info("proxy on, proxy " + proxyTypeString + " to " + proxyAddress + ":" + port);
+            logger.info("CoolQ.proxy on, proxy " + proxyTypeString + " to " + proxyAddress + ":" + port);
 
             Proxy proxy;
             //转换proxyType
