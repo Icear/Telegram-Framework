@@ -1,17 +1,20 @@
 package indi.framework.coolqhttpapi.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * CoolQ事件基础接口
  */
 public class CoolQEvent {
-    //post_type
-    protected String postType;
 
-    //time
-    protected long time;
+    @SerializedName("post_type")
+    String postType;
 
-    //self_id
-    protected long selfId;
+    @SerializedName("time")
+    long time;
+
+    @SerializedName("self_id")
+    long selfId;
 
     public CoolQEvent(String postType, long time, long selfId) {
         this.postType = postType;

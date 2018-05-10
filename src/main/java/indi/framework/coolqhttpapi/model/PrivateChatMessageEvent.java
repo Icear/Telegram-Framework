@@ -1,5 +1,7 @@
 package indi.framework.coolqhttpapi.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Set;
 
 /**
@@ -7,17 +9,17 @@ import java.util.Set;
  */
 public class PrivateChatMessageEvent extends CoolQEvent {
 
-    //message_type
+    @SerializedName("message_type")
     private String messageType;
-    //sub_type
+    @SerializedName("sub_type")
     private String subType;
-    //message_id
+    @SerializedName("message_id")
     private long messageId;
-    //user_id
+    @SerializedName("user_id")
     private long user_id;
-
+    @SerializedName("message")
     private Set<String> message;
-
+    @SerializedName("font")
     private long font;
 
     public PrivateChatMessageEvent(
