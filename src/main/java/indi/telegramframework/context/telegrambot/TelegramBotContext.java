@@ -17,16 +17,18 @@ import java.net.Proxy;
  */
 @Component
 public class TelegramBotContext {
+
+    @Value("#{setting['telegramBot.proxy']}")
+    private boolean proxySwitch;
+    @Value("#{setting['telegramBot.proxy.type']}")
+    private String proxyTypeString;
+    @Value("#{setting['telegramBot.proxy.address']}")
+    private String proxyAddress;
+    @Value("#{setting['telegramBot.proxy.port']}")
+    private int port;
+
     @Value("#{setting['telegramBot.token']}")
     private String telegramBotToken;
-    @Value("#{setting['proxy']}")
-    private boolean proxySwitch;
-    @Value("#{setting['proxy.type']}")
-    private String proxyTypeString;
-    @Value("#{setting['proxy.address']}")
-    private String proxyAddress;
-    @Value("#{setting['proxy.port']}")
-    private int port;
 
     private Logger logger = LogManager.getLogger(TelegramBotContext.class);
 
