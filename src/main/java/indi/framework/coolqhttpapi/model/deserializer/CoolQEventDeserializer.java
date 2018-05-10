@@ -3,6 +3,7 @@ package indi.framework.coolqhttpapi.model.deserializer;
 import com.google.gson.*;
 import indi.framework.coolqhttpapi.model.CoolQEvent;
 import indi.framework.coolqhttpapi.model.PrivateChatMessageEvent;
+import indi.framework.coolqhttpapi.model.UnknownEvent;
 
 import java.lang.reflect.Type;
 
@@ -10,7 +11,6 @@ import java.lang.reflect.Type;
  * CoolQ事件的JSON反序列化解析器
  */
 public class CoolQEventDeserializer implements JsonDeserializer<CoolQEvent> {
-    private Gson gson = new Gson();
 
     @Override
     public CoolQEvent deserialize(
@@ -20,6 +20,7 @@ public class CoolQEventDeserializer implements JsonDeserializer<CoolQEvent> {
 
         //手动检查数据的类型来决定要转换的JSON对象
 
+
         JsonObject jsonObject = jsonElement.getAsJsonObject();
         String postType = jsonObject.get("post_type").getAsString();
 
@@ -28,14 +29,16 @@ public class CoolQEventDeserializer implements JsonDeserializer<CoolQEvent> {
                 String messageType = jsonObject.get("message_type").getAsString();
                 switch (messageType) {
                     case "private":
-                        coolQEvent = gson.fromJson(jsonElement, PrivateChatMessageEvent.class);
+                        coolQEvent = jsonDeserializationContext.deserialize(jsonElement, PrivateChatMessageEvent.class);
                         break;
                     default:
-                        coolQEvent = gson.fromJson(jsonElement, CoolQEvent.class);
+                        coolQEvent = jsonDeserializationContext.deserialize(jsonElement, UnknownEvent.class);
+                        ((UnknownEvent) coolQEvent).setRowMessage(jsonElement.getAsString());
                 }
                 break;
             default:
-                coolQEvent = gson.fromJson(jsonElement, CoolQEvent.class);
+                coolQEvent = jsonDeserializationContext.deserialize(jsonElement, UnknownEvent.class);
+                ((UnknownEvent) coolQEvent).setRowMessage(jsonElement.getAsString());
         }
 
         return coolQEvent;
