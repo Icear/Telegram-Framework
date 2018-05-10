@@ -1,6 +1,7 @@
 package indi.telegramframework.context.telegrambot;
 
 import com.pengrad.telegrambot.TelegramBot;
+import indi.telegramframework.util.ProxyUtil;
 import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.net.InetSocketAddress;
 import java.net.Proxy;
 
 
@@ -25,7 +25,7 @@ public class TelegramBotContext {
     @Value("#{setting['telegramBot.proxy.address']}")
     private String proxyAddress;
     @Value("#{setting['telegramBot.proxy.port']}")
-    private int port;
+    private int proxyPort;
 
     @Value("#{setting['telegramBot.token']}")
     private String telegramBotToken;
@@ -38,21 +38,9 @@ public class TelegramBotContext {
         logger.trace("telegramBot.token = " + telegramBotToken);
         TelegramBot.Builder telegramBotBuilder = new TelegramBot.Builder(telegramBotToken);
         if (proxySwitch) {
-            logger.info("CoolQ.proxy on, proxy " + proxyTypeString + " to " + proxyAddress + ":" + port);
+            logger.info("CoolQ.proxy on, proxy " + proxyTypeString + " to " + proxyAddress + ":" + proxyPort);
 
-            Proxy proxy;
-            //转换proxyType
-            switch (proxyTypeString) {
-                case "http":
-                    proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress, port));
-                    break;
-                case "sock":
-                    proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(proxyAddress, port));
-                    break;
-                default:
-                    proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress, port));
-                    logger.error("unsupported proxy type " + proxyTypeString + ", use default: HTTP");
-            }
+            Proxy proxy = ProxyUtil.generateProxy(proxyTypeString, proxyAddress, proxyPort);
 
             telegramBotBuilder.okHttpClient(
                     new OkHttpClient.Builder()
@@ -73,7 +61,7 @@ public class TelegramBotContext {
                 "proxySwitch=" + proxySwitch +
                 ", proxyTypeString='" + proxyTypeString + '\'' +
                 ", proxyAddress='" + proxyAddress + '\'' +
-                ", port=" + port +
+                ", proxyPort=" + proxyPort +
                 ", telegramBotToken='" + telegramBotToken +
                 '}';
     }
