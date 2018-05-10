@@ -56,8 +56,9 @@ public class CoolQ {
          *
          * @param accessToken Token
          */
-        public void setAccessToken(@NotNull String accessToken) {
+        public Builder setAccessToken(@NotNull String accessToken) {
             this.accessToken = accessToken;
+            return this;
         }
 
         /**
@@ -65,8 +66,9 @@ public class CoolQ {
          *
          * @param wsHost 主机地址
          */
-        public void setWsHost(@NotNull String wsHost) {
+        public Builder setWsHost(@NotNull String wsHost) {
             this.wsHost = wsHost;
+            return this;
         }
 
         /**
@@ -74,8 +76,9 @@ public class CoolQ {
          *
          * @param wsPort 端口
          */
-        public void setWsPort(int wsPort) {
+        public Builder setWsPort(int wsPort) {
             this.wsPort = wsPort;
+            return this;
         }
 
         /**
@@ -83,8 +86,9 @@ public class CoolQ {
          *
          * @param customOkHttpClient 自定义的OkHttpClient
          */
-        public void setCustomOkHttpClient(@NotNull OkHttpClient customOkHttpClient) {
+        public Builder setCustomOkHttpClient(@NotNull OkHttpClient customOkHttpClient) {
             this.customOkHttpClient = customOkHttpClient;
+            return this;
         }
 
         /**
