@@ -2,10 +2,12 @@ package indi.framework.coolqhttpapi.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * CoolQ事件基础接口
  */
-public class CoolQEvent {
+public class CoolQEvent implements Serializable {
 
     @SerializedName("post_type")
     String postType;
