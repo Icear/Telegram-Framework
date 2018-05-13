@@ -5,6 +5,7 @@ import com.pengrad.telegrambot.UpdatesListener;
 import indi.icear.telegramframework.context.telegrambot.event.TelegramBotEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
@@ -39,7 +40,7 @@ public class TelegramBotEventDispatcher implements ApplicationEventPublisherAwar
     }
 
     @Override
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+    public void setApplicationEventPublisher(@NotNull ApplicationEventPublisher applicationEventPublisher) {
         //TODO 存在一个问题，同一个事件会被触发两次
         this.applicationEventPublisher = applicationEventPublisher;
         addBotUpdatesListener();
@@ -53,8 +54,8 @@ public class TelegramBotEventDispatcher implements ApplicationEventPublisherAwar
         switch (connectWay) {
             case "UpdateListener":
                 telegramBot.setUpdatesListener(updateList -> {
-                    logger.debug("receive update events");
-                    logger.trace("update events: " + updateList.toString() + " ,total " + updateList.size());
+                    logger.debug("receive update events" + " ,total " + updateList.size());
+                    logger.trace("update events: " + updateList.toString());
                     //接收到Update事件后
                     //将Update事件转换为TelegramBotEvent
                     //为每一个事件调用telegramBotFilter的filter函数进行过滤

@@ -6,8 +6,6 @@ import indi.icear.framework.coolqhttpapi.model.CoolQEvent;
 import indi.icear.framework.coolqhttpapi.model.deserializer.CoolQEventDeserializer;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 /**
