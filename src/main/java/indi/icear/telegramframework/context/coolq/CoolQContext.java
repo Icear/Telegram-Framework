@@ -34,7 +34,7 @@ public class CoolQContext {
     @Value("#{setting['CoolQ.webSocketHost']}")
     private String wsHost;
 
-    @Value("#{setting['CoolQ.webSocketHost']}")
+    @Value("#{setting['CoolQ.webSocketPort']}")
     private int wsPort;
 
     @Bean
