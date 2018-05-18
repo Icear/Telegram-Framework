@@ -19,22 +19,22 @@ import java.net.Proxy;
 public class CoolQContext {
     private Logger logger = LogManager.getLogger(CoolQContext.class);
 
-    @Value("#{setting['CoolQ.proxy']}")
+    @Value("${CoolQ.proxy}")
     private boolean proxySwitch;
-    @Value("#{setting['CoolQ.proxy.type']}")
+    @Value("${CoolQ.proxy.type}")
     private String proxyTypeString;
-    @Value("#{setting['CoolQ.proxy.address']}")
+    @Value("${CoolQ.proxy.address}")
     private String proxyAddress;
-    @Value("#{setting['CoolQ.proxy.port']}")
+    @Value("${CoolQ.proxy.port}")
     private int proxyPort;
 
-    @Value("#{setting['CoolQ.accessToken']}")
+    @Value("${CoolQ.accessToken}")
     private String accessToken;
 
-    @Value("#{setting['CoolQ.webSocketHost']}")
+    @Value("${CoolQ.webSocketHost}")
     private String wsHost;
 
-    @Value("#{setting['CoolQ.webSocketPort']}")
+    @Value("${CoolQ.webSocketPort}")
     private int wsPort;
 
     @Bean

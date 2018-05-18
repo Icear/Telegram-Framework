@@ -22,7 +22,7 @@ import java.util.function.Predicate;
 public class TelegramBotEventDispatcher implements ApplicationEventPublisherAware {
     private Logger logger = LogManager.getLogger(TelegramBotEventDispatcher.class);
 
-    @Value("#{setting['telegramBot.connectWay']}")
+    @Value("${telegramBot.connectWay}")
     private String connectWay;
 
     private final Set<TelegramBotEventFilter> telegramBotEventFilterSet;
