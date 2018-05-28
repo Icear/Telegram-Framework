@@ -9,6 +9,7 @@
     <context:annotation-config/>
     <context:component-scan base-package="indi.icear.telegramframework.context"/>
     <context:component-scan base-package="indi.icear.telegramframework.plugin"/>
+    <context:component-scan base-package="indi.icear.telegramframework.service"/>
 
     <bean id="setting" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations">

@@ -67,6 +67,12 @@
             <artifactId>annotations</artifactId>
             <version>16.0.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.xetorthio/jedisque -->
+        <dependency>
+            <groupId>com.github.xetorthio</groupId>
+            <artifactId>jedisque</artifactId>
+            <version>0.0.4</version>
+        </dependency>
 
     </dependencies>
 </project>
