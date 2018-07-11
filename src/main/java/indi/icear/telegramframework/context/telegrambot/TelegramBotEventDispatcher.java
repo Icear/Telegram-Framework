@@ -2,12 +2,13 @@ package indi.icear.telegramframework.context.telegrambot;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
+import indi.icear.telegramframework.configuration.TelegramBotConfig;
 import indi.icear.telegramframework.context.telegrambot.event.TelegramBotEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Component;
@@ -15,22 +16,24 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import static indi.icear.telegramframework.configuration.TelegramBotConfig.ConnectWay.updateListener;
+
 /**
  * TelegramBot事件的监听者，同时负责发布全局TelegramBot事件
  */
 @Component
+@EnableConfigurationProperties(TelegramBotConfig.class)
 public class TelegramBotEventDispatcher implements ApplicationEventPublisherAware {
     private Logger logger = LogManager.getLogger(TelegramBotEventDispatcher.class);
 
-    @Value("${telegramBot.connectWay}")
-    private String connectWay;
+    private TelegramBotConfig properties;
 
     private final Set<TelegramBotEventFilter> telegramBotEventFilterSet;
     private final TelegramBot telegramBot;
     private ApplicationEventPublisher applicationEventPublisher;
 
-    @Autowired
-    public TelegramBotEventDispatcher(TelegramBot telegramBot, Set<TelegramBotEventFilter> telegramBotEventFilterSet) {
+    public TelegramBotEventDispatcher(TelegramBotConfig properties, TelegramBot telegramBot, Set<TelegramBotEventFilter> telegramBotEventFilterSet) {
+        this.properties = properties;
         this.telegramBot = telegramBot;
         //使用Spring注入获得所有的Filter实现
         this.telegramBotEventFilterSet = telegramBotEventFilterSet;
@@ -50,9 +53,9 @@ public class TelegramBotEventDispatcher implements ApplicationEventPublisherAwar
         //注册更新监听器，目前使用Update监听器来更新事件，同时通过ApplicationEventPublisher来发布事件
         //TODO 加入WebHook支持
 
-        logger.info("add telegram bot update listener via " + connectWay + "...");
-        switch (connectWay) {
-            case "UpdateListener":
+        logger.info("add telegram bot update listener via " + properties.getConnectWay() + "...");
+        switch (properties.getConnectWay()) {
+            case updateListener:
                 telegramBot.setUpdatesListener(updateList -> {
                     logger.debug("receive update events" + " ,total " + updateList.size());
                     logger.trace("update events: " + updateList.toString());
@@ -76,16 +79,17 @@ public class TelegramBotEventDispatcher implements ApplicationEventPublisherAwar
                 logger.info("start listening telegram bot event");
                 break;
             default:
-                logger.error("unsupported connectWay: " + connectWay + ", event will not be check");
+                logger.error("unsupported connectWay: " + properties.getConnectWay() + ", event will not be check");
         }
     }
 
     @Override
     public String toString() {
-        return "TelegramBotEventListener{" +
-                "telegramBot=" + telegramBot +
-                ", connectWay='" + connectWay + '\'' +
+        return "TelegramBotEventDispatcher{" +
+                "properties=" + properties +
                 ", telegramBotEventFilterSet=" + telegramBotEventFilterSet +
+                ", telegramBot=" + telegramBot +
+                ", applicationEventPublisher=" + applicationEventPublisher +
                 '}';
     }
 }
