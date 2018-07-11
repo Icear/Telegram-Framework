@@ -1,13 +1,12 @@
-package indi.icear.telegramframework.context.telegrambot;
+package indi.icear.telegramframework.telegrambot;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import indi.icear.telegramframework.configuration.TelegramBotConfig;
-import indi.icear.telegramframework.context.telegrambot.event.TelegramBotEvent;
+import indi.icear.telegramframework.telegrambot.event.TelegramBotEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
@@ -15,8 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Set;
 import java.util.function.Predicate;
-
-import static indi.icear.telegramframework.configuration.TelegramBotConfig.ConnectWay.updateListener;
 
 /**
  * TelegramBot事件的监听者，同时负责发布全局TelegramBot事件

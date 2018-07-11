@@ -1,4 +1,4 @@
-package indi.icear.telegramframework.context.coolq;
+package indi.icear.telegramframework.coolq;
 
 import indi.icear.framework.coolqhttpapi.CoolQ;
 import indi.icear.telegramframework.configuration.CoolQConfig;
@@ -6,7 +6,6 @@ import indi.icear.telegramframework.util.ProxyUtil;
 import okhttp3.OkHttpClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;

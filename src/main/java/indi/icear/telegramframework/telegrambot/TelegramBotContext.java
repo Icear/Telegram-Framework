@@ -1,10 +1,9 @@
-package indi.icear.telegramframework.context.telegrambot;
+package indi.icear.telegramframework.telegrambot;
 
 import com.pengrad.telegrambot.TelegramBot;
 import indi.icear.telegramframework.configuration.TelegramBotConfig;
 import indi.icear.telegramframework.util.ProxyUtil;
 import okhttp3.OkHttpClient;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,6 @@
-package indi.icear.telegramframework.context.telegrambot;
+package indi.icear.telegramframework.telegrambot;
 
-import indi.icear.telegramframework.context.telegrambot.event.TelegramBotEvent;
+import indi.icear.telegramframework.telegrambot.event.TelegramBotEvent;
 
 /**
  * Bot事件的过滤器接口
