@@ -1,67 +1,50 @@
 package indi.icear.telegramframework.telegrambot;
 
-import com.pengrad.telegrambot.TelegramBot;
-import indi.icear.telegramframework.configuration.TelegramBotConfig;
-import indi.icear.telegramframework.util.ProxyUtil;
-import okhttp3.OkHttpClient;
+import indi.icear.telegramframework.configuration.TelegramBotProperties;
+import org.apache.http.HttpHost;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.net.Proxy;
+import org.telegram.telegrambots.ApiContext;
+import org.telegram.telegrambots.TelegramBotsApi;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
 
 
 /**
  * 用于创建TelegramBot的上下文
  */
 @Component
-@EnableConfigurationProperties(TelegramBotConfig.class)
+@EnableConfigurationProperties(TelegramBotProperties.class)
 public class TelegramBotContext {
 
-    private TelegramBotConfig properties;
-
-    private Logger logger = LogManager.getLogger(TelegramBotContext.class);
-
-    public TelegramBotContext(TelegramBotConfig properties) {
-        this.properties = properties;
-    }
+    private static Logger logger = LogManager.getLogger(TelegramBotContext.class);
 
     @Bean
-    public TelegramBot getTelegramBot() {
-        logger.info("connecting to telegram bot service via token...");
-        logger.trace("telegramBot.token = " + properties.getToken());
-        TelegramBot.Builder telegramBotBuilder = new TelegramBot.Builder(properties.getToken());
-        if (properties.getProxy() != null) {
-            logger.info(
-                    "CoolQ.proxy on, proxy "
-                            + properties.getProxy().getType().getText() + " to "
-                            + properties.getProxy().getAddress() + ":"
-                            + properties.getProxy().getPort());
-
-            Proxy proxy = ProxyUtil.generateProxy(
-                    properties.getProxy().getType(),
-                    properties.getProxy().getAddress(),
-                    properties.getProxy().getPort());
-
-            telegramBotBuilder.okHttpClient(
-                    new OkHttpClient.Builder()
-                            .proxy(proxy)
-                            .build()
-            );
+    public TelegramBot telegramBot(TelegramBotProperties properties, TelegramBotEventDispatcher telegramBotEventDispatcher) {
+        logger.info("connecting to TelegramBot service via accessToken...");
+        logger.debug("TelegramBot.Token = " + properties.getToken());
+        if (properties.getProxy() == null) {
+            return new TelegramBot(properties.getName(), properties.getToken(), telegramBotEventDispatcher);
         }
 
-        TelegramBot telegramBot = telegramBotBuilder.build();
-        logger.info("telegram bot service connected");
-        logger.debug("telegram bot service connect result: " + telegramBot);
-        return telegramBot;
+        DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
+        HttpHost httpHost = new HttpHost(properties.getProxy().getAddress(), properties.getProxy().getPort());
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setProxy(httpHost)
+                .setAuthenticationEnabled(false)
+                .build();
+        botOptions.setRequestConfig(requestConfig);
+        botOptions.setCredentialsProvider(new BasicCredentialsProvider());
+        botOptions.setHttpProxy(httpHost);
+        return new TelegramBot(botOptions, properties.getName(), properties.getToken(), telegramBotEventDispatcher);
     }
 
-    @Override
-    public String toString() {
-        return "TelegramBotContext{" +
-                "properties=" + properties +
-                '}';
-    }
+
 }

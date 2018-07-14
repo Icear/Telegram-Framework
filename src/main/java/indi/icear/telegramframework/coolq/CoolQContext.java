@@ -1,7 +1,7 @@
 package indi.icear.telegramframework.coolq;
 
 import indi.icear.framework.coolqhttpapi.CoolQ;
-import indi.icear.telegramframework.configuration.CoolQConfig;
+import indi.icear.telegramframework.configuration.CoolQProperties;
 import indi.icear.telegramframework.util.ProxyUtil;
 import okhttp3.OkHttpClient;
 import org.apache.logging.log4j.LogManager;
@@ -17,13 +17,13 @@ import java.net.Proxy;
  * 用于CoolQ的上下文
  */
 @Component
-@EnableConfigurationProperties(CoolQConfig.class)
+@EnableConfigurationProperties(CoolQProperties.class)
 public class CoolQContext {
     private Logger logger = LogManager.getLogger(CoolQContext.class);
 
-    private CoolQConfig properties;
+    private CoolQProperties properties;
 
-    public CoolQContext(CoolQConfig properties) {
+    public CoolQContext(CoolQProperties properties) {
         this.properties = properties;
     }
 

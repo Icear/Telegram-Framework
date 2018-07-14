@@ -4,11 +4,19 @@ import indi.icear.telegramframework.util.ProxyUtil;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "telegram-bot")
-public class TelegramBotConfig {
+public class TelegramBotProperties {
     private ProxyUtil.Proxy proxy;
     private String token;
     private ConnectWay connectWay;
+    private String name;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public ProxyUtil.Proxy getProxy() {
         return proxy;
@@ -57,5 +65,15 @@ public class TelegramBotConfig {
                     "text='" + text + '\'' +
                     '}';
         }
+    }
+
+    @Override
+    public String toString() {
+        return "TelegramBotProperties{" +
+                "proxy=" + proxy +
+                ", token='" + token + '\'' +
+                ", connectWay=" + connectWay +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

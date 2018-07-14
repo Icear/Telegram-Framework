@@ -4,7 +4,7 @@ import indi.icear.telegramframework.util.ProxyUtil;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "coolq")
-public class CoolQConfig {
+public class CoolQProperties {
 
     private ProxyUtil.Proxy proxy;
     private String accessToken;
