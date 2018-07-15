@@ -4,7 +4,7 @@ package indi.icear.telegramframework.telegrambot;
 /**
  * TelegramBot消息队列常量
  */
-public class TelegramBotMessageQueue {
+public class TelegramBotMessageDestination {
 
 
     /**

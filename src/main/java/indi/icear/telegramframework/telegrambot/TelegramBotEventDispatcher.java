@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -17,27 +19,39 @@ import java.util.Optional;
  * TelegramBot事件的监听者，同时负责发布全局TelegramBot事件
  */
 @Component
-@EnableConfigurationProperties(TelegramBotProperties.class)
 public class TelegramBotEventDispatcher {
     private Logger logger = LogManager.getLogger(TelegramBotEventDispatcher.class);
 
-    private TelegramBotProperties properties;
     private JmsMessagingTemplate jmsMessagingTemplate;
 
-    public TelegramBotEventDispatcher(TelegramBotProperties properties, JmsMessagingTemplate jmsMessagingTemplate) {
-        this.properties = properties;
+    public TelegramBotEventDispatcher(JmsMessagingTemplate jmsMessagingTemplate) {
         this.jmsMessagingTemplate = jmsMessagingTemplate;
     }
 
     public void dispatchEvent(Update update) {
         /*
-         * 设置事件接收器，然后对应三种事件进行对应的消息发送
+         * 设置事件接收器，然后根据事件选择对应的消息通道发送
          */
 
         //调用一个分类器，把Update的类型确定下来，然后对应发布
-        //直接发布吧。。。三种消息都是同一个。。。
-
-
+        switch (getEventType(update)) {
+            case NORMAL_MESSAGE:
+                jmsMessagingTemplate.convertAndSend(TelegramBotMessageDestination.normalMessageDestination, update);
+                break;
+            case ORDER_MESSAGE:
+                Map<String, Object> headers = new HashMap<>();
+                headers.put("order", getMessageOrder(update.getMessage()));
+                jmsMessagingTemplate.convertAndSend(TelegramBotMessageDestination.orderMessageDestinationHeader, update, headers);
+                break;
+            case REPLY_MESSAGE:
+                //TODO 增加header用于标记被回复的消息来源
+                jmsMessagingTemplate.convertAndSend(TelegramBotMessageDestination.replyMessageDestination);
+                break;
+            case UNSUPPORTED_MESSAGE:
+            default:
+                logger.warn("unsupported message type, ignored");
+                logger.debug(update);
+        }
     }
 
     /**
@@ -47,17 +61,21 @@ public class TelegramBotEventDispatcher {
      * @return 事件类型
      */
     private EventType getEventType(@NotNull Update update) {
-        Optional<Message> normalMessage = Optional.ofNullable(update.getMessage());
-        if (normalMessage.isPresent()) {
-            return isOrderMessage(normalMessage.get()) ? EventType.ORDER_MESSAGE : EventType.NORMAL_MESSAGE;
+        Optional<Message> message = Optional.ofNullable(update.getMessage());
+        if (message.isPresent()) {
+            if (isOrderMessage(message.get())) return EventType.ORDER_MESSAGE;
+            if (message.get().isReply()) return EventType.REPLY_MESSAGE;
+            return EventType.NORMAL_MESSAGE;
         }
-
-
         return EventType.UNSUPPORTED_MESSAGE;
     }
 
     private boolean isOrderMessage(Message normalMessage) {
         return normalMessage.getText().startsWith("/");
+    }
+
+    private String getMessageOrder(Message normalMessage) {
+        return normalMessage.getText().split(" ")[0];
     }
 
 
