@@ -1,26 +1,35 @@
 package indi.icear.framework.coolqhttpapi.model;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.io.Serializable;
 
 /**
  * CoolQ事件基础接口
  */
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NONE) //开启反序列多子类实体的能力
 public class CoolQEvent implements Serializable {
 
-    @SerializedName("post_type")
+    @JsonProperty("post_type")
     String postType;
 
-    @SerializedName("time")
+    @JsonProperty("time")
     long time;
 
-    @SerializedName("self_id")
+    @JsonProperty("self_id")
     long selfId;
 
-    public CoolQEvent(String postType, long time, long selfId) {
+    public void setPostType(String postType) {
         this.postType = postType;
+    }
+
+    public void setTime(long time) {
         this.time = time;
+    }
+
+    public void setSelfId(long selfId) {
         this.selfId = selfId;
     }
 
